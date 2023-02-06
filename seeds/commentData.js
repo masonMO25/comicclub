@@ -21,8 +21,8 @@ const commentData = [
         book_id: 3,
         comment_text: "We just reached a million subscribers! Fantastic!"
     }
-]
+];
 
-const seedComments = () => Comment.bulkCreate(commentData);
+const seedComment = () => Comment.bulkCreate(commentData);
 
-module.exports = seedComments;
+module.exports = seedComment;
