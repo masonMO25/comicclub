@@ -41,6 +41,7 @@ router.get('/gallery/:id', withAuth, async (req, res) => {
             'id',
             'title',
             'author',
+            'exhibition_date',
             'filename',
             'description',
           ],
