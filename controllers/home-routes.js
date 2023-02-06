@@ -1,9 +1,7 @@
 const router = require('express').Router();
 const { Gallery, Book, Comment, User } = require('../models');
-// Import the custom middleware
 const withAuth = require('../utils/auth');
 
-// GET all galleries for homepage
 router.get('/', async (req, res) => {
   try {
     const dbGalleryData = await Gallery.findAll({
@@ -29,8 +27,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET one gallery
-// Use the custom middleware before allowing the user to access the gallery
 router.get('/gallery/:id', withAuth, async (req, res) => {
   try {
     const dbGalleryData = await Gallery.findByPk(req.params.id, {

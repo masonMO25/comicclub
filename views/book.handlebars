@@ -5,21 +5,22 @@
     <p>By: {{book.author}}</p>
   </div>
 </section>
+
 {{#if loggedIn}}
 <form class="comment-form">
   <div>
-    <textarea class="ml-5" name="comment-body"></textarea>
+    <textarea name="comment-body"></textarea>
   </div>
 
   <div>
-    <button class="button is-warning ml-5 mb-5" type="submit">add comment</button>
+    <button type="submit">Add Comment</button>
   </div>
-  
 </form>
 {{/if}}
 
-{{> comments book.comment}}
+
+{{> comments book.comments}}
 
 {{#if loggedIn}}
-<script src="/public/js/comment.js"></script>
+<script type="text/html" src="./js/comment.js"></script>
 {{/if}}

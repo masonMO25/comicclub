@@ -2,6 +2,25 @@ const router = require('express').Router();
 const { Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
+router.post('/', async (req, res) => {
+  try {
+    const dbCommentData = await Comment.create({
+      user_id: req.body.user_id,
+      book_id: req.body.book_id,
+      comment_text: req.body.comment_text,
+    });
+
+    req.session.save(() => {
+      req.session.loggedIn = true;
+
+      res.status(200).json(dbCommentData);
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
 router.get('/', (req, res) => {
     Comment.findAll({})
       .then(dbCommentData => res.json(dbCommentData))
@@ -12,12 +31,10 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', withAuth, (req, res) => {
-  // check the session
   if (req.session) {
     Comment.create({
       comment_text: req.body.comment_text,
-      post_id: req.body.post_id,
-      // use the id from the session
+      book_id: req.body.book_id,
       user_id: req.session.user_id,
     })
       .then(dbCommentData => res.json(dbCommentData))
