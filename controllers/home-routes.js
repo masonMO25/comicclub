@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Gallery, Book, Comment, User } = require('../models');
+const { Gallery, Book } = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', async (req, res) => {
@@ -53,21 +53,9 @@ router.get('/gallery/:id', withAuth, async (req, res) => {
   }
 });
 
-// Use the custom middleware before allowing the user to access the painting
 router.get('/book/:id', withAuth, async (req, res) => {
   try {
-    const dbBookData = await Book.findByPk(req.params.id, {
-      include: [
-        {
-          model: Comment,
-          attributes: ['id', 'comment_text', 'book_id', 'user_id', 'created_at'],
-          include: {
-            model: User,
-            attributes: ['username']
-          },
-        },
-      ],
-    });
+    const dbBookData = await Book.findByPk(req.params.id)
     const book = dbBookData.get({ plain: true });
     res.render('book', { book, loggedIn: req.session.loggedIn });
   } catch (err) {
