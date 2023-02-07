@@ -24,8 +24,13 @@ const sess = {
 app.use(session(sess));
 
 const hbs = exphbs.create({ helpers });
-
-app.engine('handlebars', hbs.engine);
+app.set('views', path.join(__dirname, "./views"));
+app.engine('handlebars', hbs.create({
+  handlebars: allowInsecurePrototypeAccess(hbs),
+  defaultLayout: 'main',
+  layoutsDir: app.get('views') + "/layouts",
+  partialsDir: [app.get('views') + '/partials'],
+}).engine);
 app.set('view engine', 'handlebars');
 
 app.use(express.json());
